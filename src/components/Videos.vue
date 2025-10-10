@@ -1,35 +1,17 @@
 <script setup>
-    import { onMounted, ref } from 'vue';
-    const category_input = ref('');
-    const category_list = ref(['Electronics', 'Music']);
 
-    const category_selected = ref('');
-
-    const addCategory = () =>{
-        if(category_input.value.trim() !== ''){
-
-          category_list.value.push(category_input.value);
-          category_input.value = '';
-        }
-      }; 
-
-    const listYtChannels = (category) =>{
-
-        if(category.trim() !== ''){
-
-            console.log(category);
-        }
-    }
+ const channel_name = ref('');
+ 
 </script>
 
 <template>
     <div class="bg-white rounded-xl shadow-md relative">
         <div class="p-4">
-            <div><h1 class="text-2xl text-center mb-2">Category</h1></div>
+            <div><h1 class="text-2xl text-center mb-2">Videos From Channel </h1></div>
             <div class="border border-gray-100 mb-2"></div>
             <div>
-                <form @submit.prevent="addCategory" >
-                    <input class="ml-4 border rounded w-3/4 py-2 px-3 mr-5" type="text" id="newTask" name="newTask" v-model="category_input"></input>
+                <form @submit.prevent="addCategory" class="grid grid-cols-4 gap-4">
+                    <input class="ml-4 border rounded col-span-3 py-2 px-2 mr-2 mb-2" type="text" id="newTask" name="newTask" v-model="category_input"></input>
                     <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">+</button>
                 </form>
             </div>

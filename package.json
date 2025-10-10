@@ -9,9 +9,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "json-server --watch src/test.json --port 5500"
   },
   "dependencies": {
+    "axios": "^1.12.2",
+    "json-server": "^1.0.0-beta.3",
     "vue": "^3.5.22",
     "vue-router": "^4.5.1"
   },

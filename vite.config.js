@@ -11,7 +11,14 @@ export default defineConfig({
     vueDevTools(),
   ],
   server: {
-    port:4000
+    port:4000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5500',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   resolve: {
     alias: {
