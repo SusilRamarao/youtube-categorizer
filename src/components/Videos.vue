@@ -1,13 +1,13 @@
 <script setup>
 
- const channel_name = ref('');
+ //const channel_name = ref('');
  
 </script>
 
 <template>
     <div class="bg-white rounded-xl shadow-md relative">
         <div class="p-4">
-            <div><h1 class="text-2xl text-center mb-2">Videos From Channel </h1></div>
+            <div><h1 class="text-2xl text-center mb-2">Videos </h1></div>
             <div class="border border-gray-100 mb-2"></div>
             <div>
                 <form @submit.prevent="addCategory" class="grid grid-cols-4 gap-4">
@@ -16,7 +16,7 @@
                 </form>
             </div>
             <div class="border border-gray-100 mb-2"></div>
-            <ul>
+            <!--ul>
                 <li v-for="(category, index) in category_list" :key="task">
                     <button 
                     type="submit" 
@@ -24,9 +24,9 @@
                     class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3">
                         {{ category }}
                     </button>
-                <!--button @click="deleteTask(index)">x</button-->
+                <button @click="deleteTask(index)">x</button>
                 </li>
-            </ul>
+            </ul-->
 
         </div>
     </div>

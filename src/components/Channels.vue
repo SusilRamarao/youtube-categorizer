@@ -1,21 +1,16 @@
 <script setup>
     import axios from 'axios';
 
-    
-    const getChannels
-    const listYtChannels = (category) =>{
+    const getChannels = (category) =>{
 
-        if(category.trim() !== ''){
 
-            console.log(category);
-        }
     }
 </script>
 
 <template>
     <div class="bg-white rounded-xl shadow-md relative">
         <div class="p-4">
-            <div><h1 class="text-2xl text-center mb-2">Category</h1></div>
+            <div><h1 class="text-2xl text-center mb-2">Channels</h1></div>
             <div class="border border-gray-100 mb-2"></div>
             <div>
                 <form @submit.prevent="addCategory" class="grid grid-cols-4 gap-4">
