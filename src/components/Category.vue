@@ -1,6 +1,12 @@
 <script setup>
     import { ref, reactive, onMounted } from 'vue';
     import axios from 'axios';
+
+    const emit = defineEmits(['category-selected']);
+
+    const selectCategory = (category) => {
+        emit('category-selected', category)
+    }
     
     const category_input = ref('');
     const category_list = ref([]);
@@ -47,7 +53,13 @@
         
         // Update localStorage
         localStorage.setItem('categoriesData', JSON.stringify(categories_data.value));
-    }
+    };
+
+    const listYtChannels = async (category_selected) => {
+
+        console.log("category selected", category_selected);
+        //pass the channel name to parent 
+    };
 
     onMounted(async () => {
 
@@ -85,7 +97,7 @@
             <div class="border border-gray-100 mb-2"></div>
             <div>
                 <form @submit.prevent="addCategory" class="grid grid-cols-4 gap-4">
-                    <input class="ml-4 border rounded col-span-3 py-2 px-2 mr-2 mb-2" type="text" id="newTask" name="newTask" v-model="category_input"></input>
+                    <input placeholder="Electronics" class="ml-4 border rounded col-span-3 py-2 px-2 mr-2 mb-2" type="text" id="newTask" name="newTask" v-model="category_input"></input>
                     <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">+</button>
                 </form>
             </div>
@@ -94,7 +106,7 @@
                 <li v-for="(category, index) in category_list" :key="task" class = "grid grid-cols-6 gap-6">
                     <button 
                     type="submit" 
-                    @click="listYtChannels(category)"
+                    @click="selectCategory(category)"
                     class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3 col-span-5">
                         {{ category }}
                     </button>

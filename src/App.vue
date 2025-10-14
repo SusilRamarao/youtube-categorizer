@@ -1,8 +1,14 @@
 <script setup>
+import {ref} from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import Category from '@/components/Category.vue';
 import Channels from './components/Channels.vue';
 import Videos from './components/Videos.vue';
+
+const category_selected = ref('');
+const channel_selected = ref('');
+const video_selected = ref('');
+
 </script>
 
 <template>
@@ -10,12 +16,10 @@ import Videos from './components/Videos.vue';
     
     <div class="container-xl lg:container m-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <Category />
-          <Channels />
-          <Videos />
+          <Category @category-selected="category_selected = $event"/>
+          <Channels :category="category_selected"/>
+          <!--Videos /-->
         </div>
     </div>
   </section>
-  
-  <RouterView />
 </template>
