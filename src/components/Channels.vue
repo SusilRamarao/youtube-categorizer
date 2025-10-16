@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, defineProps, onMounted } from 'vue';
+    import { ref, defineProps, onMounted, watch } from 'vue';
     import axios from 'axios';
 
     const props = defineProps({
@@ -8,10 +8,56 @@
         }
     });
 
-    const channel_input = ref('');
-    const channel_list = ref([]);
-    const category_selected = ref(props.category); //get from other view
-    let channel_data = ref({});
+    const emit = defineEmits(['channel-selected']);
+
+    const selectChannel = (channel) => {
+        emit('channel-selected', channel)
+    }
+
+    let category_selected = ref('');
+    let yt_data = ref('');
+    let channel_data = ref([]);
+
+    // Watch a single prop
+    watch(() => props.category, (newValue, oldValue) => {
+        if (newValue) { // Check that the prop has a value
+            
+            category_selected = newValue;
+            console.log(`myProp has been set to: ${newValue}`);
+            // Call your function here
+            get_channel_data(newValue);
+        }
+    });
+
+    function get_channel_data(value) {
+        
+        try{
+            // Try to load from localStorage first
+            const savedData = localStorage.getItem('categoriesData');
+            
+            if (savedData) {
+                yt_data.value = JSON.parse(savedData);
+            }
+            
+            // Populate category list
+            for(let category of yt_data.value.categories){
+
+                if(category["name"] === category_selected)
+                {
+                    for(let channel of category["channels"]){
+
+                        console.log("channel ", channel["name"], channel["url"]);
+                    }
+                }
+                channel_data.value.push(category.name);
+            }
+
+            console.log("Loaded categories:", categories_data.value);
+
+        }catch(error){
+            console.error("Error fetching jobs", error);
+        }
+    }
 
     const addChannels = (channel_link) =>{
 
@@ -25,11 +71,6 @@
         -------------------------------
         */ 
     }
-
-    onMounted( async => {
-
-        console.log('category', props.category);
-    }); 
 
 </script>
 
@@ -46,15 +87,15 @@
                     <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">+</button>
                 </form>
             </div>
-            <div><h2 class="text-2xl text-center mb-2 my-2"> {{ category }}</h2></div>
+            <div><h2 class="text-2xl text-center mb-2 my-2"> {{ category_selected }}</h2></div>
             <div class="border border-gray-100 mb-2"></div>
             <ul>
                 <li v-for="(channel, index) in channel_list" :key="task">
                     <button 
                     type="submit" 
-                    @click="listYtChannels(category)"
+                    @click="selectChannel(category)"
                     class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3">
-                        {{ category }}
+                        {{ channel }}
                     </button>
                 <!--button @click="deleteTask(index)">x</button-->
                 </li>
