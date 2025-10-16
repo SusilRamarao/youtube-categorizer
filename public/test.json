@@ -37,19 +37,18 @@
       "name": "Music",
       "channels": [
         {
-          "Rick Astley": {
-            "url": "https://www.youtube.com/user/RickAstleyVEVO",
-            "videos": [
-              {
-                "title": "Never Gonna Give You Up",
-                "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-              },
-              {
-                "title": "Together Forever",
-                "url": "https://www.youtube.com/watch?v=3GwjfUFyY6M"
-              }
-            ]
-          }
+          "name": "Rick Astley",
+          "url": "https://www.youtube.com/user/RickAstleyVEVO",
+          "videos": [
+            {
+              "title": "Never Gonna Give You Up",
+              "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            },
+            {
+              "title": "Together Forever",
+              "url": "https://www.youtube.com/watch?v=3GwjfUFyY6M"
+            }
+          ]
         }
       ]
     }

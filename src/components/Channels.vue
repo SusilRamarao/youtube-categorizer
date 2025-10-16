@@ -1,6 +1,7 @@
 <script setup>
     import { ref, defineProps, onMounted, watch } from 'vue';
     import axios from 'axios';
+    import Channel from './Channel.vue';
 
     const props = defineProps({
         category:{
@@ -16,7 +17,7 @@
 
     let category_selected = ref('');
     let yt_data = ref('');
-    let channel_data = ref([]);
+    let channel_data = [];
 
     // Watch a single prop
     watch(() => props.category, (newValue, oldValue) => {
@@ -31,6 +32,8 @@
 
     function get_channel_data(value) {
         
+        channel_data = [];
+
         try{
             // Try to load from localStorage first
             const savedData = localStorage.getItem('categoriesData');
@@ -38,6 +41,8 @@
             if (savedData) {
                 yt_data.value = JSON.parse(savedData);
             }
+
+            console.log("yt_data", yt_data.value);
             
             // Populate category list
             for(let category of yt_data.value.categories){
@@ -47,12 +52,13 @@
                     for(let channel of category["channels"]){
 
                         console.log("channel ", channel["name"], channel["url"]);
+                        channel_data.push({"name" : channel["name"], url: channel["url"]});
                     }
                 }
-                channel_data.value.push(category.name);
+                
             }
 
-            console.log("Loaded categories:", categories_data.value);
+            console.log("Loaded channel:", channel_data);
 
         }catch(error){
             console.error("Error fetching jobs", error);
@@ -89,13 +95,21 @@
             </div>
             <div><h2 class="text-2xl text-center mb-2 my-2"> {{ category_selected }}</h2></div>
             <div class="border border-gray-100 mb-2"></div>
+
+            <!-- Shoe job listing when done loading -->
+      <!--div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <JobListing
+          v-for="job in state.jobs.slice(0, limit || state.jobs.length)"
+          :key="job.id"
+          :job="job"
+        /-->
             <ul>
-                <li v-for="(channel, index) in channel_list" :key="task">
+                <li v-for="(channel, index) in channel_data" :key="task">
                     <button 
                     type="submit" 
                     @click="selectChannel(category)"
                     class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3">
-                        {{ channel }}
+                        <Channel :channel="channel"/>
                     </button>
                 <!--button @click="deleteTask(index)">x</button-->
                 </li>

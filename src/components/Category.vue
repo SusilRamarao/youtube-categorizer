@@ -55,14 +55,10 @@
         localStorage.setItem('categoriesData', JSON.stringify(categories_data.value));
     };
 
-    const listYtChannels = async (category_selected) => {
-
-        console.log("category selected", category_selected);
-        //pass the channel name to parent 
-    };
-
     onMounted(async () => {
 
+        console.log("onMounted");
+        localStorage.removeItem('categoriesData');
         try{
             // Try to load from localStorage first
             const savedData = localStorage.getItem('categoriesData');
