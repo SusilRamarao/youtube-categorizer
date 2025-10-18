@@ -1,0 +1,14 @@
+{
+  "name": "youtube-categorizer-server",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "open-graph-scraper": "^6.10.0"
+  }
+}

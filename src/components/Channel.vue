@@ -1,20 +1,13 @@
 <script setup>
 
+import { reactive, computed } from 'vue';
 import { defineProps } from 'vue';
 import { Axios } from 'axios';
-import { ogs } from 'open-graph-scraper';
 
     const props = defineProps({
         channel: Object,
     });
-    /*
-    const props = defineProps({
-        url:{
-            type: String
-        },
-        name:{type: String}
-    });
-*/
+
     const image = computed( async () => {
 
         try {  
