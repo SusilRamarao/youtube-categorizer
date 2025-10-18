@@ -96,24 +96,13 @@
             <div><h2 class="text-2xl text-center mb-2 my-2"> {{ category_selected }}</h2></div>
             <div class="border border-gray-100 mb-2"></div>
 
-            <!-- Shoe job listing when done loading -->
-      <!--div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <JobListing
-          v-for="job in state.jobs.slice(0, limit || state.jobs.length)"
-          :key="job.id"
-          :job="job"
-        /-->
-            <ul>
-                <li v-for="(channel, index) in channel_data" :key="task">
-                    <button 
+            <Channel v-for="(channel, index) in channel_data" :key="channel" :channel="channel" class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3">
+                <button 
                     type="submit" 
-                    @click="selectChannel(category)"
-                    class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3">
-                        <Channel :channel="channel"/>
-                    </button>
-                <!--button @click="deleteTask(index)">x</button-->
-                </li>
-            </ul>
+                    @click="selectChannel(channel)"
+                    >
+                </button>
+            </Channel>
 
         </div>
     </div>

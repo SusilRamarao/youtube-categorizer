@@ -18,6 +18,7 @@ app.get('/api/og-data', async (req, res) => {
     
     try {
         const { result } = await ogs({ url });
+        //console.log(result);
         res.json({
             title: result.ogTitle || result.twitterTitle || '',
             image: result.ogImage?.[0]?.url || result.twitterImage?.[0]?.url || '',
