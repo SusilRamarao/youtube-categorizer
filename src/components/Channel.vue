@@ -8,6 +8,8 @@
         channel: Object,
     });
 
+    const emit = defineEmits(['deleted-index']);
+
     const loading = ref(false);
     const error = ref('');
     const imageUrl = ref(''); // Store the image URL
@@ -41,7 +43,7 @@
 
 <template>
     <div class="grid grid-cols-6 gap-6">
-        <div class="col-span-1">
+        <div class="col-span-2">
             <!-- Show loading state -->
             <div v-if="loading" class="w-16 h-16 bg-gray-200 rounded animate-pulse"></div>
 
@@ -63,7 +65,8 @@
                 <span class="text-gray-500 text-xs">No img</span>
             </div>
         </div>
-        <label class="col-span-5 text-center">{{ props.channel.name }}</label>
+        <label class="col-span-3 text-justify">{{ props.channel.name }}</label>
+        
     </div>
     
 </template>

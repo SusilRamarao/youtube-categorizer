@@ -83,7 +83,7 @@
 <template>
     <div class="bg-white rounded-xl shadow-md relative">
         <div class="p-4">
-            <div><h1 class="text-2xl text-center mb-2">Channels</h1></div>
+            <div><h1 class="text-2xl text-center mb-2">Channels ({{ category_selected }})</h1></div>
             
             <div class="border border-gray-100 mb-2"></div>
             
@@ -93,16 +93,18 @@
                     <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">+</button>
                 </form>
             </div>
-            <div><h2 class="text-2xl text-center mb-2 my-2"> {{ category_selected }}</h2></div>
+            <!--div><h2 class="text-2xl text-center mb-2 my-2"> {{ category_selected }}</h2></div-->
             <div class="border border-gray-100 mb-2"></div>
-
-            <Channel v-for="(channel, index) in channel_data" :key="channel" :channel="channel" class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3">
-                <button 
-                    type="submit" 
-                    @click="selectChannel(channel)"
-                    >
-                </button>
-            </Channel>
+            <div class="grid grid-cols-6 gap-6">
+                <Channel v-for="(channel, index) in channel_data" :key="channel" :channel="channel" class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3 col-span-5">
+                    <!--button 
+                        type="submit" 
+                        @click="selectChannel(channel)"
+                        >
+                    </button-->
+                </Channel>
+                <button class="col-span-1 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" @click="deleteTask(index)" >x</button>
+            </div>
 
         </div>
     </div>

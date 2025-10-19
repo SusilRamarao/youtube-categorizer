@@ -57,7 +57,7 @@
 
     onMounted(async () => {
 
-        console.log("onMounted");
+        //console.log("onMounted");
         localStorage.removeItem('categoriesData');
         try{
             // Try to load from localStorage first
