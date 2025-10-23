@@ -3,36 +3,42 @@
     import axios from 'axios';
     import Channel from './Channel.vue';
 
+    /*PROPS*/
     const props = defineProps({
         category:{
             type: String
         }
     });
 
-    const emit = defineEmits(['channel-selected']);
+    /*EMITS*/
+    
+    const emit = defineEmits(['channel-data']);
 
-    const selectChannel = (channel) => {
-        emit('channel-selected', channel)
+    const emitChannelIndex = (index) => {
+
+        console.log(`channel index selected`, channel_data.value[index]);
+        emit('channel-data', channel_data.value[index]);
     }
 
+    //Common variables
     let category_selected = ref('');
-    let yt_data = ref('');
-    let channel_data = [];
+    const channel_data = ref([]); // Make this reactive
+    const category_input = ref(''); // Add missing ref
 
     // Watch a single prop
     watch(() => props.category, (newValue, oldValue) => {
         if (newValue) { // Check that the prop has a value
             
             category_selected = newValue;
-            console.log(`myProp has been set to: ${newValue}`);
-            // Call your function here
             get_channel_data(newValue);
         }
     });
 
+
     function get_channel_data(value) {
         
-        channel_data = [];
+        channel_data.value = [];
+        let yt_data = ref('');
 
         try{
             // Try to load from localStorage first
@@ -42,8 +48,6 @@
                 yt_data.value = JSON.parse(savedData);
             }
 
-            console.log("yt_data", yt_data.value);
-            
             // Populate category list
             for(let category of yt_data.value.categories){
 
@@ -51,14 +55,10 @@
                 {
                     for(let channel of category["channels"]){
 
-                        console.log("channel ", channel["name"], channel["url"]);
-                        channel_data.push({"name" : channel["name"], url: channel["url"]});
+                        channel_data.value.push(channel);
                     }
                 }
-                
             }
-
-            console.log("Loaded channel:", channel_data);
 
         }catch(error){
             console.error("Error fetching jobs", error);
@@ -93,19 +93,29 @@
                     <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">+</button>
                 </form>
             </div>
-            <!--div><h2 class="text-2xl text-center mb-2 my-2"> {{ category_selected }}</h2></div-->
             <div class="border border-gray-100 mb-2"></div>
-            <div class="grid grid-cols-6 gap-6">
-                <Channel v-for="(channel, index) in channel_data" :key="channel" :channel="channel" class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3 col-span-5">
-                    <!--button 
-                        type="submit" 
-                        @click="selectChannel(channel)"
-                        >
-                    </button-->
-                </Channel>
-                <button class="col-span-1 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" @click="deleteTask(index)" >x</button>
-            </div>
+            <ul>
+                <li v-for="(channel, index) in channel_data" :key="channel">
+                    <div class="grid grid-cols-6 gap-6">
 
+                        <Channel :channel="channel" :index="index" @selected_index="emitChannelIndex" class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3  col-span-5"/>
+                        
+                        <button class="col-span-1 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" @click="deleteTask(index)" >x</button>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
+
+
+<!--div class="grid grid-cols-6 gap-6">
+                <Channel v-for="(channel, index) in channel_data" :key="channel" :channel="channel" class="text-black border border-gray-300 hover:border-double hover:bg-gray-100  rounded-lg w-full text-center py-3 mb-3 col-span-5">
+                    <button 
+                        type="submit" 
+                        @click="selectChannel(channel)"
+                        >
+                    </button>
+                </Channel>
+                <button class="col-span-1 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" @click="deleteTask(index)" >x</button>
+            </div-->

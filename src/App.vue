@@ -1,13 +1,13 @@
 <script setup>
-import {ref} from 'vue';
-import { RouterLink, RouterView } from 'vue-router'
-import Category from '@/components/Category.vue';
-import Channels from './components/Channels.vue';
-import Videos from './components/Videos.vue';
+  import {ref} from 'vue';
+  import { RouterLink, RouterView } from 'vue-router'
+  import Category from '@/components/Category.vue';
+  import Channels from './components/Channels.vue';
+  import Videos from './components/Videos.vue';
 
-const category_selected = ref('');
-const channel_selected = ref('');
-const video_selected = ref('');
+  const category_selected = ref('');
+  const channel_selected = ref('');
+  const video_selected = ref('');
 
 </script>
 
@@ -17,8 +17,8 @@ const video_selected = ref('');
     <div class="container-xl lg:container m-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
           <Category @category-selected="category_selected = $event"/>
-          <Channels :category="category_selected"/>
-          <!--Videos /-->
+          <Channels :category="category_selected" @channel-data="channel_selected = $event"/>
+          <Videos :channel_data="channel_selected" />
         </div>
     </div>
   </section>

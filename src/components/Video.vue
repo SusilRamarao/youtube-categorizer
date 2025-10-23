@@ -5,16 +5,8 @@
     import axios from 'axios';
 
     const props = defineProps({
-        channel: Object,
-        index: Number
+        video: Object
     });
-
-    const emit = defineEmits(['selected_index']);
-
-    const channelSelect = () =>{
-        console.log("Channel select funct", props.index);
-        emit('selected_index', props.index);
-    }
 
     const loading = ref(false);
     const error = ref('');
@@ -22,16 +14,19 @@
 
     onMounted( async () => {
 
-        if (!props.channel?.url) return;
+        if (!props.video?.url) return;
         
         loading.value = true;
+        console.log("video props", props.video);
 
         try {  
             const response = await axios.get('http://localhost:3001/api/og-data', {
                 params: {
-                    url: props.channel.url,
+                    url: props.video.url,
                 }
             });
+
+            console.log("video data", response.data);
 
             imageUrl.value = response.data.image || ''; // Set the image URL
             
@@ -42,12 +37,12 @@
         }
     });
 
-
 </script>
+
 
 <template>
 
-        <button type="submit" @click="channelSelect()" class="grid grid-cols-6 gap-6">
+        <button type="submit" class="grid grid-cols-6 gap-6">
                 <!-- Image loading states and logic START -->
                 <!-- Show loading state -->
                 <div v-if="loading" class="w-16 h-16 bg-gray-200 rounded animate-pulse col-span-2"></div>
@@ -59,7 +54,7 @@
                 <img 
                     v-else-if="imageUrl" 
                     :src="imageUrl" 
-                    :alt="props.channel.name"
+                    :alt="props.video.title"
                     class="w-16 h-16 rounded object-cover col-span-2"
                 />
                 <!-- Show placeholder if no image -->
@@ -67,7 +62,7 @@
                     <span class="text-gray-500 text-xs">No img</span>
                 </div>
                 <!-- Image loading states and logic ENDS -->
-                 <div class="text-justify py-3 mb-3 col-span-4">{{ props.channel.name }}</div>
+                 <div class="text-justify py-3 mb-3 col-span-4">{{ props.video.title }}</div>
                  
         </button>
     
