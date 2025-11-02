@@ -55,14 +55,14 @@
                     v-else-if="imageUrl" 
                     :src="imageUrl" 
                     :alt="props.video.title"
-                    class="w-16 h-16 rounded object-cover col-span-2"
+                    class="mx-4 w-16 h-16 rounded object-cover col-span-2"
                 />
                 <!-- Show placeholder if no image -->
                 <div v-else class="w-16 h-16 bg-gray-300 rounded flex items-center justify-center col-span-2">
                     <span class="text-gray-500 text-xs">No img</span>
                 </div>
                 <!-- Image loading states and logic ENDS -->
-                 <div class="text-justify py-3 mb-3 col-span-4">{{ props.video.title }}</div>
+                 <div class="text-justify py-3 mb-2 col-span-4">{{ props.video.title }}</div>
                  
         </button>
     

@@ -32,7 +32,7 @@
                     url: props.channel.url,
                 }
             });
-
+            //console.log("Channel response", response.data);
             imageUrl.value = response.data.image || ''; // Set the image URL
             
         } catch (error) {
@@ -60,7 +60,7 @@
                     v-else-if="imageUrl" 
                     :src="imageUrl" 
                     :alt="props.channel.name"
-                    class="w-16 h-16 rounded object-cover col-span-2"
+                    class="mx-4 w-16 h-16 rounded object-cover col-span-2"
                 />
                 <!-- Show placeholder if no image -->
                 <div v-else class="w-16 h-16 bg-gray-300 rounded flex items-center justify-center col-span-2">

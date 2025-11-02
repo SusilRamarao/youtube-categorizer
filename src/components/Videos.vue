@@ -10,15 +10,23 @@ const props = defineProps({
     }
 });
 
+
+
 let video_data = ref([]);
 
 watch(() => props.channel_data, (newValue, oldValue) => {
     if (newValue) { // Check that the prop has a value
         
-        video_data.value = [];
-        video_data.value = newValue["videos"];
-        console.log("channel data in videos ", newValue);
-        //get_videos_data(newValue["videos"]);
+        if(newValue == ' '){
+            video_data.value = [];
+        }
+        else{
+            video_data.value = [];
+            video_data.value = newValue["videos"];
+            console.log("channel data in videos ", newValue);
+            //get_videos_data(newValue["videos"]);
+        }
+        
     }
 });
 
