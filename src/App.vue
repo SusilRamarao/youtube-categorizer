@@ -7,7 +7,6 @@
 
   const category_selected = ref('');
   const channel_selected = ref('');
-  const video_selected = ref('');
 
   watch(() => category_selected.value, (newValue, oldValue) => {
     if (newValue) { // Check that the prop has a value

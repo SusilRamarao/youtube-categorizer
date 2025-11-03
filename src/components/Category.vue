@@ -14,75 +14,57 @@
     let categories_data = ref({});
 
     const addCategory = async () => {
-        if(category_input.value.trim() !== ''){
-            const new_category = {
-                id: category_input.value.toLowerCase().replace(/\s+/g, '-'),
-                name: category_input.value,
-                channels: []
-            };
-            
-            // Check if category already exists
-            const exists = categories_data.value.categories.find(cat => 
-                cat.name.toLowerCase() === category_input.value.toLowerCase()
-            );
-            
-            if (!exists) {
-                categories_data.value.categories.push(new_category);
-                category_list.value.push(new_category.name);
-                
-                // Save to localStorage
-                localStorage.setItem('categoriesData', JSON.stringify(categories_data.value));
-            }
-            
-            category_input.value = '';
-        }
+
+        const add_category_result = await axios.post('http://localhost:3001/api/db', {
+
+            category: category_input.value,
+            channel: "",
+            videos: "",
+        });
+        
+        console.log(add_category_result);
+        category_input.value = '';
+
+        loadCategory();
       }; 
+    
 
     const deleteTask = async(categoryName) =>{
 
-        // Remove from categories_data
-        categories_data.value.categories = categories_data.value.categories.filter(
-            cat => cat.name !== categoryName
-        );
+        const delete_category_result = await axios.delete('http://localhost:3001/api/db', {
+
+            data: {
+                category: categoryName,
+                channel: "",
+                videos: ""
+            }
+        });
         
-        // Remove from category_list
-        const index = category_list.value.indexOf(categoryName);
-        if (index > -1) {
-            category_list.value.splice(index, 1);
-        }
-        
-        // Update localStorage
-        localStorage.setItem('categoriesData', JSON.stringify(categories_data.value));
+        console.log(delete_category_result);
+
+        loadCategory();
     };
+
+    const loadCategory = async() => {
+
+        category_list.value = [];
+        const category_query_result = await axios.get('http://localhost:3001/api/db', {
+                params: {
+                    category:"All",
+                    channel: "",
+                    videos: "",
+                }
+        });
+
+        for(let category of category_query_result.data.results){
+
+            category_list.value.push(category.name);
+        }
+    }
 
     onMounted(async () => {
 
-        //console.log("onMounted");
-        localStorage.removeItem('categoriesData');
-        try{
-            // Try to load from localStorage first
-            const savedData = localStorage.getItem('categoriesData');
-            
-            if (savedData) {
-                categories_data.value = JSON.parse(savedData);
-            } else {
-
-                const response = await axios.get('/test.json');
-                categories_data.value = response.data;
-
-                localStorage.setItem('categoriesData', JSON.stringify(categories_data.value));
-            }
-            
-            // Populate category list
-            for(let category of categories_data.value.categories){
-                category_list.value.push(category.name);
-            }
-
-            console.log("Loaded categories:", categories_data.value);
-
-        }catch(error){
-            console.error("Error fetching jobs", error);
-        }
+        loadCategory();
     });
 </script>
 

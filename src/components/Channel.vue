@@ -27,6 +27,7 @@
         loading.value = true;
 
         try {  
+
             const response = await axios.get('http://localhost:3001/api/og-data', {
                 params: {
                     url: props.channel.url,
